@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 void main() {
-  runApp(const cryptoTestApp());
+  runApp(const CryptoTestApp());
 }
 
-class cryptoTestApp extends StatelessWidget {
-  const cryptoTestApp({super.key});
+class CryptoTestApp extends StatelessWidget {
+  const CryptoTestApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -16,7 +16,7 @@ class cryptoTestApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow),
         dividerColor: Colors.white24,
-        scaffoldBackgroundColor: Color.fromARGB(255, 52, 47, 47),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 52, 47, 47),
         appBarTheme: const AppBarTheme(
           backgroundColor: Color.fromARGB(255, 52, 47, 47),
           titleTextStyle: TextStyle(
@@ -38,27 +38,19 @@ class cryptoTestApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MyHomePage(),
+      home: const CryptoListView(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class CryptoListView extends StatefulWidget {
+  const CryptoListView({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<CryptoListView> createState() => _CryptoListViewState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
+class _CryptoListViewState extends State<CryptoListView> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -83,11 +75,29 @@ class _MyHomePageState extends State<MyHomePage> {
             '20000\$',
             style: theme.textTheme.labelSmall,
           ),
-          trailing: Icon(
+          trailing: const Icon(
             Icons.arrow_forward_ios,
           ),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const CryptoCoinView(),
+              ),
+            );
+          },
         ),
       ),
+    );
+  }
+}
+
+class CryptoCoinView extends StatelessWidget {
+  const CryptoCoinView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Bitcoin')),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -38,7 +40,10 @@ class CryptoTestApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const CryptoListView(),
+      routes: {
+        '/': (context) => CryptoListView(),
+        '/coin': (context) => CryptoCoinView(),
+      },
     );
   }
 }
@@ -61,43 +66,69 @@ class _CryptoListViewState extends State<CryptoListView> {
       body: ListView.separated(
         itemCount: 10,
         separatorBuilder: (context, index) => const Divider(),
-        itemBuilder: (context, i) => ListTile(
-          leading: SvgPicture.asset(
-            'assets/svg/bitcoin-logo.svg',
-            height: 30,
-            width: 30,
-          ),
-          title: Text(
-            'Bitcoin',
-            style: theme.textTheme.bodyMedium,
-          ),
-          subtitle: Text(
-            '20000\$',
-            style: theme.textTheme.labelSmall,
-          ),
-          trailing: const Icon(
-            Icons.arrow_forward_ios,
-          ),
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const CryptoCoinView(),
-              ),
-            );
-          },
-        ),
+        itemBuilder: (context, i) {
+          const coinName = 'Bitcoin';
+          return ListTile(
+            leading: SvgPicture.asset(
+              'assets/svg/bitcoin-logo.svg',
+              height: 30,
+              width: 30,
+            ),
+            title: Text(
+              coinName,
+              style: theme.textTheme.bodyMedium,
+            ),
+            subtitle: Text(
+              '20000\$',
+              style: theme.textTheme.labelSmall,
+            ),
+            trailing: const Icon(
+              Icons.arrow_forward_ios,
+            ),
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                '/coin',
+                arguments: coinName,
+              );
+            },
+          );
+        },
       ),
     );
   }
 }
 
-class CryptoCoinView extends StatelessWidget {
+class CryptoCoinView extends StatefulWidget {
   const CryptoCoinView({super.key});
+
+  @override
+  State<CryptoCoinView> createState() => _CryptoCoinViewState();
+}
+
+class _CryptoCoinViewState extends State<CryptoCoinView> {
+  String? coinTitle;
+
+  @override
+  void didChangeDependencies() {
+    final args = ModalRoute.of(context)?.settings.arguments;
+    assert(args != null && args is String, 'You must provide String data');
+    // if (args == null) {
+    //   log('You must provide data');
+    //   return;
+    // }
+    // if (args is! String) {
+    //   log('You must provide String args');
+    //   return;
+    // }
+    coinTitle = args as String;
+    setState(() {});
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Bitcoin')),
+      appBar: AppBar(title: Text(coinTitle ?? '...')),
     );
   }
 }

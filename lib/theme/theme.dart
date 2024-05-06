@@ -6,6 +6,7 @@ final darkTheme = ThemeData(
   scaffoldBackgroundColor: const Color.fromARGB(255, 52, 47, 47),
   appBarTheme: const AppBarTheme(
     backgroundColor: Color.fromARGB(255, 52, 47, 47),
+    elevation: 0,
     titleTextStyle: TextStyle(
         color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
     centerTitle: true,

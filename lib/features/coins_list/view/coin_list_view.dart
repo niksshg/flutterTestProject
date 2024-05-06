@@ -1,9 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:some_project/features/coins_list/widgets/widgets.dart';
-import 'package:some_project/repositories/crypto_coins/cripto_coins_repo.dart';
-import 'package:some_project/repositories/crypto_coins/models/crypto_coins.dart';
+import 'package:some_project/repositories/crypto_coins/crypto_coins.dart';
 
 class CryptoListView extends StatefulWidget {
   const CryptoListView({super.key});
@@ -43,7 +42,7 @@ class _CryptoListViewState extends State<CryptoListView> {
   }
 
   Future<void> _loadCryptoCoinsData() async {
-    _cryptoCoinsList = await CryptoCoinsRepo().getCoinsList();
+    _cryptoCoinsList = await GetIt.I<AbstractCoinsRepo>().getCoinsList();
     setState(() {});
   }
 }
